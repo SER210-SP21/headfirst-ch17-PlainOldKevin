@@ -52,9 +52,17 @@ public class CommentsDataSource {
     }
 
     public List<Comment> getAllComments() {
-
-
-        return null;
+        List<Comment> comments = new ArrayList<Comment>();
+        // Select * from comments
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS, allColumns, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Comment comment = cursorToComment(cursor);
+            comments.add(comment);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return comments;
     }
 
     private Comment cursorToComment(Cursor cursor) {
